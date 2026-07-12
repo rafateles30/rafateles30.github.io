@@ -42,35 +42,45 @@ const shadowHeader = () => {
 }
 window.addEventListener('scroll', shadowHeader)
 
-/*=============== EMAIL JS ===============*/
+/*=============== FORM SUBMISSION (Formspree) ===============*/
 const contactForm = document.getElementById('contact-form'),
       contactMessage = document.getElementById('contact-message')
-      
-
+ 
+ 
 const sendEmail = (e) => {
     e.preventDefault()
-
-    emailjs.sendForm('service_9cy28n6','template_a9jut3k','#contact-form','RuJgIDHlEutN_8tIi')
-    .then(() =>{
-        // Show sent message
-        contactMessage.textContent = 'Message sent successfully ✅'
-
+ 
+    const data = new FormData(contactForm)
+ 
+    fetch(contactForm.action, {
+        method: 'POST',
+        body: data,
+        headers: {
+            'Accept': 'application/json'
+        }
+    }).then(response => {
+        if (response.ok) {
+            // Show sent message
+            contactMessage.textContent = 'Message sent successfully ✅'
+ 
+            // Clear input fields
+            contactForm.reset()
+        } else {
+            // Show error message
+            contactMessage.textContent = 'Message not sent (service error) ❌'
+        }
+    }).catch(() => {
+        contactMessage.textContent = 'Message not sent (network error) ❌'
+    }).finally(() => {
         // Remove message after five seconds
         setTimeout(() => {
             contactMessage.textContent = ''
         }, 5000)
-
-        // Clear input fields
-        contactForm.reset()
-
-    }, () => {
-        // Show error message
-        contactMessage.textContent = '  Message not sent (service error) ❌'
-
     })
 }
-
+ 
 contactForm.addEventListener('submit', sendEmail)
+ 
 
 /*=============== SHOW SCROLL UP ===============*/ 
 const scrollUp = () => {
