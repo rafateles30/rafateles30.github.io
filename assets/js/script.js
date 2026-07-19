@@ -212,7 +212,7 @@ gsap.utils.toArray("section").forEach((section, index) => {
 });
 
 // Hover Effects
-const projectCards = document.querySelectorAll(".project-card");
+const projectCards = document.querySelectorAll(".projects__card");
 projectCards.forEach(card => {
     card.addEventListener("mouseenter", () => gsap.to(card, { scale: 1.05, duration: 0.3, ease: "power1.out" }));
     card.addEventListener("mouseleave", () => gsap.to(card, { scale: 1, duration: 0.3, ease: "power1.out" }));
